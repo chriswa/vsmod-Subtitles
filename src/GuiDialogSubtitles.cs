@@ -13,10 +13,9 @@ namespace Subtitles {
       ElementBounds dialogBounds = ElementStdBounds.AutosizedMainDialog.WithAlignment(EnumDialogArea.RightBottom).WithFixedPadding(10);
       SingleComposer = capi.Gui.CreateCompo("subtitles", dialogBounds);
 
-      ElementBounds subtitleListBounds = ElementBounds.FixedSize(250, 450);
+      ElementBounds subtitleListBounds = ElementBounds.FixedSize(300, 450);
       dialogBounds.WithChild(subtitleListBounds);
       subtitleElement = new GuiElementSubtitleList(SingleComposer.Api, subtitleListBounds);
-      // var bar = new GuiElementDynamicText();
       SingleComposer.AddInteractiveElement(subtitleElement, "subtitleList");
 
       SingleComposer.Compose(false);

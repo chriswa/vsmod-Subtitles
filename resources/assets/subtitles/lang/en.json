@@ -1,8 +1,15 @@
 {
-  "subtitles:grass": "Footstep (grass)",
+  "subtitles:walk/grass": "Footstep (grass)",
+  "subtitles:walk/snow": "Footstep (snow)",
+  "subtitles:walk/default": "Footstep",
   "subtitles:menubutton": "",
   "subtitles:menubutton_press": "",
-  "subtitles:drifter-idle": "Drifter grumbles",
-  "subtitles:growl": "Wolf growls",
-  "subtitles:hare-idle": ""
+  "subtitles:tick": "",
+  "subtitles:creature/drifter-idle": "Drifter grumbles",
+  "subtitles:creature/wolf/growl": "Wolf growls",
+  "subtitles:creature/hare-idle": "",
+  "subtitles:player/collect": "Collected item",
+  "subtitles:block/dirt": "Smashing dirt",
+  "subtitles:environment/waterwaves": "Water waving",
+  "subtitles:effect/rockslide": "Landslide"
 }

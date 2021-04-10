@@ -11,7 +11,7 @@ namespace Subtitles {
     public CairoFont Font;
 
     private static readonly int MAX_SOUNDS = 15;
-    private static readonly int MAX_AGE_SECONDS = 3;
+    private static readonly int MAX_AGE_SECONDS = 4;
     public class Sound {
       public bool active = false;
       public double age;
@@ -77,43 +77,35 @@ namespace Subtitles {
           var brightness = ((1 - (sound.age / MAX_AGE_SECONDS)) * Math.Max(1, sound.volume) / 2 + 0.5);
 
           ctx.SetSourceRGBA(0, 0, 0, 0.25 + (brightness / 2));
-          ctx.Rectangle(0, y, 250, 30);
+          ctx.Rectangle(0, y, 300, 30);
           ctx.Fill();
 
           ctx.SetSourceRGB(brightness, brightness, brightness);
-          textUtil.DrawTextLine(ctx, Font, sound.name, 125 - sound.textWidth / 2, y);
+          textUtil.DrawTextLine(ctx, Font, sound.name, 150 - sound.textWidth / 2, y + 2);
 
           if (!Double.IsNaN(sound.yaw)) {
+            // sloppy arrow drawing hax
             ctx.Save();
             Matrix matrix = ctx.Matrix;
-            matrix.Translate(15, y + 16);
+            matrix.Translate(15, y + 15);
             matrix.Rotate(sound.yaw + api.World.Player.CameraYaw + Math.PI / 2);
             ctx.Matrix = matrix;
             textUtil.DrawTextLine(ctx, Font, "<", -10, -10);
             ctx.Restore();
             ctx.Save();
             matrix = ctx.Matrix;
-            matrix.Translate(236, y + 16);
+            matrix.Translate(285, y + 15);
             matrix.Rotate(sound.yaw + api.World.Player.CameraYaw + Math.PI / 2);
             ctx.Matrix = matrix;
             textUtil.DrawTextLine(ctx, Font, "<", -10, -10);
             ctx.Restore();
           }
-
-
-          // var direction = GameMath.Mod((sound.yaw + api.World.Player.CameraYaw) / GameMath.TWOPI * 12, 12);
-          // if (direction > 2 && direction < 4) { textUtil.DrawTextLine(ctx, Font, ">>", 224, y); }
-          // else if (direction > 1 && direction < 3) { textUtil.DrawTextLine(ctx, Font, ">", 224, y); }
-          // else if (direction > 3 && direction < 5) { textUtil.DrawTextLine(ctx, Font, ">", 224, y); }
-          // else if (direction > 8 && direction < 10) { textUtil.DrawTextLine(ctx, Font, "<<", 5, y); }
-          // else if (direction > 7 && direction < 11) { textUtil.DrawTextLine(ctx, Font, "<", 17, y); }
         }
-
         y -= 30;
       }
     }
 
-    public void OnNewSound(string name, double yaw, double distance) {
+    public void OnNewSound(string name, double yaw, double volume) {
       Sound targetSound = null;
       foreach (var sound in soundList) {
         if (sound.active && sound.name == name) {
@@ -135,7 +127,7 @@ namespace Subtitles {
       targetSound.name = name;
       targetSound.age = 0;
       targetSound.yaw = yaw;
-      targetSound.volume = distance;
+      targetSound.volume = volume;
       targetSound.textWidth = -1;
     }
   }
