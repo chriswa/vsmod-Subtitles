@@ -46,7 +46,7 @@ namespace Subtitles {
   [HarmonyPatch(typeof(ClientPlatformWindows))]
   [HarmonyPatch("AudioCreate")]
   public class Patch_ClientPlatformWindows_AudioCreate {
-    public static readonly double AUDIBILITY_FACTOR = 1.5;
+    public static readonly double AUDIBILITY_FACTOR = 0.7;
     public static ICoreClientAPI capi;
     public static SubtitlesMod subtitlesMod;
     public static void Prefix(
