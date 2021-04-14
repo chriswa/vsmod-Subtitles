@@ -80,25 +80,38 @@ namespace Subtitles {
           ctx.Rectangle(0, y, 300, 30);
           ctx.Fill();
 
-          ctx.SetSourceRGB(brightness, brightness, brightness);
-          textUtil.DrawTextLine(ctx, Font, sound.name, 150 - sound.textWidth / 2, y + 2);
+          var soundName = sound.name;
+          if (soundName.StartsWith("!")) {
+            soundName = soundName.Substring(1);
+            ctx.SetSourceRGB(brightness, 0, 0);
+          }
+          else {
+            ctx.SetSourceRGB(brightness, brightness, brightness);
+          }
+          textUtil.DrawTextLine(ctx, Font, soundName, 150 - sound.textWidth / 2, y + 2);
 
           if (!Double.IsNaN(sound.yaw)) {
-            // sloppy arrow drawing hax
-            ctx.Save();
-            Matrix matrix = ctx.Matrix;
-            matrix.Translate(15, y + 15);
-            matrix.Rotate(sound.yaw + api.World.Player.CameraYaw + Math.PI / 2);
-            ctx.Matrix = matrix;
-            textUtil.DrawTextLine(ctx, Font, "<", -10, -10);
-            ctx.Restore();
-            ctx.Save();
-            matrix = ctx.Matrix;
-            matrix.Translate(285, y + 15);
-            matrix.Rotate(sound.yaw + api.World.Player.CameraYaw + Math.PI / 2);
-            ctx.Matrix = matrix;
-            textUtil.DrawTextLine(ctx, Font, "<", -10, -10);
-            ctx.Restore();
+            // // sloppy arrow drawing hax
+            // ctx.Save();
+            // Matrix matrix = ctx.Matrix;
+            // matrix.Translate(15, y + 15);
+            // matrix.Rotate(sound.yaw + api.World.Player.CameraYaw + Math.PI / 2);
+            // ctx.Matrix = matrix;
+            // textUtil.DrawTextLine(ctx, Font, "<", -10, -10);
+            // ctx.Restore();
+            // ctx.Save();
+            // matrix = ctx.Matrix;
+            // matrix.Translate(285, y + 15);
+            // matrix.Rotate(sound.yaw + api.World.Player.CameraYaw + Math.PI / 2);
+            // ctx.Matrix = matrix;
+            // textUtil.DrawTextLine(ctx, Font, "<", -10, -10);
+            // ctx.Restore();
+
+            var direction = GameMath.Mod((sound.yaw + api.World.Player.CameraYaw) / GameMath.TWOPI * 12, 12);
+            if (direction > 2 && direction < 4) { textUtil.DrawTextLine(ctx, Font, ">>", 270, y); }
+            else if (direction > 1 && direction < 5) { textUtil.DrawTextLine(ctx, Font, ">", 270, y); }
+            else if (direction > 8 && direction < 10) { textUtil.DrawTextLine(ctx, Font, "<<", 5, y); }
+            else if (direction > 7 && direction < 11) { textUtil.DrawTextLine(ctx, Font, "<", 18, y); }
           }
         }
         y -= 30;
